@@ -1,23 +1,11 @@
-var express = require('express');
-const puppeteer = require('puppeteer');
-var router = express.Router();
-const fs = require("fs/promises");
+const  logicData = async function (path) {
+    var express = require('express');
+    const puppeteer = require('puppeteer');
+    const fs = require("fs/promises");
 
-const productDependencies = require('../public/javascripts/products.js');
-const startPuppeteer = require('../public/javascripts/puppeteer');
-
-
-
-
-/* GET home page. */
-router.get('/', async function(req, res, next) {
-  
-  res.render('index', { title: 'XYZ Display Shipping' });
-  const browser = await puppeteer.launch({headless: false});
-  const page = await browser.newPage();
-
- 
-    await page.goto('https://www.xyzdisplays.com/20ft-x10ft-Straight-RPL-Fabric-Display-With-Endcap-p/ws04920.htm');
+    const browser = await puppeteer.launch({headless: false});
+    const page = await browser.newPage();
+    await page.goto(path);
 
     // Set screen size
     //await page.setViewport({width: 1080, height: 1024});
@@ -73,7 +61,10 @@ router.get('/', async function(req, res, next) {
         if (match) {
           const productCode = match[1];
           console.log(productCode); // Output: ws04920
-          await fs.writeFile("product.txt", productCode + '\n');
+          await fs.appendFile("product.txt", productCode+'\n', (err) => {
+            if(err) throw err;
+            console.log('saced!')
+        });
           //return productCode
         } else {
           console.log("Product code not found.");
@@ -87,19 +78,17 @@ router.get('/', async function(req, res, next) {
     //method2
     const shippingRates = await page.$$eval('select[name="ShippingSpeedChoice"] > option', option => { return option.map(item => item.innerText) })
     let myData = { shippingRates };
-    await fs.writeFile("names.txt", shippingRates.join("\r\n"));
-  
-  //await fs.writeFile("test.txt", shipping)
+    //await fs.writeFile("names.txt", shippingRates.join("\r\n"));
 
-  productDependencies.products.map(item => {
-    const path = `${productDependencies.queryString}${item}`;
-    console.log(path)
-    startPuppeteer.logicData(path);
-   
-  })
-  await browser.close();
-});
+    fs.appendFile("names.txt", shippingRates.join("\r\n"), (err) => {
+        if(err) throw err;
+        console.log('saced!')
+    })
 
-module.exports = router;
+    await browser.close();
+}
 
-// explanation - https://www.youtube.com/watch?v=lgyszZhAZOI
+
+
+
+module.exports = { logicData }
