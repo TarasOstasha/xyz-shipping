@@ -1,3 +1,3 @@
-or101190,-PLEASE SELECT,Ground Shipping $396.49 ,3 Day Shipping $669.86 ,2 Day Shipping $938.17 ,Overnight Shipping $1,365.52 
+-
 or101191-PLEASE SELECT,Ground Shipping $125.70 ,3 Day Shipping $279.30 ,2 Day Shipping $416.73 ,Overnight Shipping $697.13 
 or101195,-PLEASE SELECT,Ground Shipping $396.49 ,3 Day Shipping $669.86 ,2 Day Shipping $938.17 ,Overnight Shipping $1,365.52 
